@@ -270,7 +270,7 @@ class T5ForSequenceClassification(T5PreTrainedModel):
         sums = torch.where(sums < 0, torch.zeros_like(sums), sums)
         
         last_hidden_indices = sums.unsqueeze(dim=-1).repeat(1, outputs[0].size(-1)).unsqueeze(1)
-        sequence_output = outputs[0].gather(dim=1, index=last_hidden_indices).squeeze(1)
+        sequence_output = outputs[0].gather(dim=1, index=last_hidden_indices.to(outputs[0].device, dtype=last_hidden_indices.dtype)).squeeze(1)
 
         sequence_output = self.dropout(sequence_output)
         logits = self.classifier(sequence_output)
