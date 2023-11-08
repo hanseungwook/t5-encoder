@@ -250,8 +250,8 @@ class T5ForSequenceClassification(T5PreTrainedModel):
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
         outputs = self.encoder(
-            input_ids=input_ids.to(self.device) if input_ids.device != self.device else input_ids,
-            attention_mask=attention_mask.to(self.device) if attention_mask.to(self.device) != self.device else attention_mask,
+            input_ids=input_ids.to(self.device) if input_ids is not None and input_ids.device != self.device else input_ids,
+            attention_mask=attention_mask.to(self.device) if attention_mask is not None and attention_mask.device != self.device else attention_mask,
             inputs_embeds=inputs_embeds,
             head_mask=head_mask,
             output_attentions=output_attentions,
